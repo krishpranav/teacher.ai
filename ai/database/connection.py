@@ -11,8 +11,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# DATABASE_URL
+# SQLALCHEMY
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
+
+# Connect Args
+connect_args = {"check_same_thread": False} if SQLALCHEMY_DATABASE_URL.startswith(
+    "sqlite") else {}
+
+# Engine
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args=connect_args)
 
 # SessionLocal
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -24,16 +31,23 @@ def get_db():
         yield db
     finally:
         db.close()
-        
+
+
 if __name__ == "__main__":
+    # print default SQLALCHEMY DATABASE URL
     print(SQLALCHEMY_DATABASE_URL)
+    
     from ai.models.usermodel import User
     from ai.models.interaction import Interaction
     
-    # Local Session
+    # local session
     with SessionLocal() as session:
         print(session.query(User).all())
-        session.delete(User(name="Test", email="text@gmail.com"))
+        session.delete(User(name="TestUser", email="test@gmail.com"))
         session.commit()
-        
+
+        print(session.query(User).all())
+        session.query(User).filter(User.name == "TestUser").delete()
+        session.commit()
+
         print(session.query(User).all())
