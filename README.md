@@ -6,7 +6,7 @@ AI Which Replaces Teachers.
 # About:
 - A simple AI which helps in your self-educating careear, don't have teachers, no need to worry here is teacher.ai which helps you self-educating yourself with your favourite influencers.
 
-# Features
+# Features:
 - User friendly
 - Get more knowledge than your teachers :)
 - You can learn topics from your favourite influences such as(elon, batman, steve jobs, iron man, etcss...)
